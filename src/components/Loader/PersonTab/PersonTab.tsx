@@ -22,15 +22,15 @@ export const PersonTab: React.FC<Props> = ({
     if (name) {
       if (findPersonInArray(peopleArray, name)) {
         return (
-          <a
+          <NavLink
             className={cn({
               'has-text-danger':
                 findPersonInArray(peopleArray, name)!.sex === 'f',
             })}
-            href={`/test#/people/${findPersonInArray(peopleArray, name)!.slug}`}
+            to={`/people/${findPersonInArray(peopleArray, name)!.slug}`}
           >
             {name}
-          </a>
+          </NavLink>
         );
       } else {
         return name;
