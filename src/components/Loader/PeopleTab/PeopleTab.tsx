@@ -1,14 +1,19 @@
 import React from 'react';
 import { PersonTab } from '../PersonTab/PersonTab';
 import { Person } from '../../../types';
-import { ErrorFetching } from '../People/People';
+import { ErrorFetching } from '../../../pages/PeoplePage';
 
 interface Props {
   peopleArray: Person[];
   error: ErrorFetching;
+  selectedPersonId: string;
 }
 
-export const PeopleTab: React.FC<Props> = ({ peopleArray, error }) => {
+export const PeopleTab: React.FC<Props> = ({
+  peopleArray,
+  error,
+  selectedPersonId,
+}) => {
   return (
     <>
       {error === ErrorFetching.none ? (
@@ -29,7 +34,10 @@ export const PeopleTab: React.FC<Props> = ({ peopleArray, error }) => {
 
           <tbody>
             {peopleArray.length > 0 ? (
-              <PersonTab peopleArray={peopleArray} />
+              <PersonTab
+                peopleArray={peopleArray}
+                selectedPersonId={selectedPersonId}
+              />
             ) : (
               <p data-cy="noPeopleMessage">There are no people on the server</p>
             )}

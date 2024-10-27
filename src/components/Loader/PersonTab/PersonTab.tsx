@@ -1,16 +1,23 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Person } from '../../../types';
 import cn from 'classnames';
+import { NavLink } from 'react-router-dom';
 
 interface Props {
   peopleArray: Person[];
+  selectedPersonId: string;
 }
 
 const findPersonInArray = (peopleArray: Person[], personName: string) => {
   return peopleArray.find(person => person.name === personName);
 };
 
-export const PersonTab: React.FC<Props> = ({ peopleArray }) => {
+export const PersonTab: React.FC<Props> = ({
+  peopleArray,
+  selectedPersonId,
+}) => {
+  const [selectedSlug, setSelectedSlug] = useState('');
+
   const renderPerentName = (name: string) => {
     if (name) {
       if (findPersonInArray(peopleArray, name)) {
@@ -33,19 +40,29 @@ export const PersonTab: React.FC<Props> = ({ peopleArray }) => {
     return '-';
   };
 
+  useEffect(() => {
+    setSelectedSlug(selectedPersonId);
+  }, [selectedPersonId]);
+
   return (
     <>
       {peopleArray.map(person => (
-        <tr key={person.slug} data-cy="person">
+        <tr
+          key={person.slug}
+          data-cy="person"
+          className={cn({
+            'has-background-warning': selectedSlug === person.slug,
+          })}
+        >
           <td>
-            <a
+            <NavLink
               className={cn({
                 'has-text-danger': person.sex === 'f',
               })}
-              href={`#/people/${person.slug}`}
+              to={`/people/${person.slug}`}
             >
               {person.name}
-            </a>
+            </NavLink>
           </td>
 
           <td>{person.sex}</td>
